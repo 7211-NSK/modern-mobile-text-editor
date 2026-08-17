@@ -10,10 +10,10 @@ object DiffManager {
         val oldLines = oldText.lines()
         val newLines = newText.lines()
         
-        // Generate reverse patch to go from NEW to OLD
+
         val patch: Patch<String> = DiffUtils.diff(newLines, oldLines)
         
-        // Serialize patch using UnifiedDiffUtils
+
         val unifiedDiff = UnifiedDiffUtils.generateUnifiedDiff(
             "newText", 
             "oldText", 
