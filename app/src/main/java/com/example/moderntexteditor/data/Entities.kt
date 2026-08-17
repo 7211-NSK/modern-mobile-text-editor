@@ -15,6 +15,6 @@ data class DocumentEntity(
 data class VersionEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val documentId: Long,
-    val delta: String, // Stored as a JSON or serialized patch
+    val delta: String,
     val timestamp: Long = System.currentTimeMillis()
 )

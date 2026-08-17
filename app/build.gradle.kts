@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp) // <-- Clean version catalog reference!
+    alias(libs.plugins.ksp) 
 }
 
 android {
@@ -35,23 +35,23 @@ android {
 }
 
 dependencies {
-    // Room Database
+
     val room_version = "2.8.4"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
-    // Kotlin Coroutines (for background auto-saving)
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // Java Diff Utils (for delta versioning)
+
     implementation("io.github.java-diff-utils:java-diff-utils:4.12")
     
-    // Markdown Parsing
+
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.9.1")
     implementation("com.atlassian.commonmark:commonmark:0.17.0")
 
-    // Android & Compose Dependencies
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
 
-    // Testing
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

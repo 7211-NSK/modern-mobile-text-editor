@@ -23,7 +23,7 @@ interface DocumentDao {
     @Delete
     suspend fun deleteDocument(document: DocumentEntity)
 
-    // Versioning
+
     @Insert
     suspend fun insertVersion(version: VersionEntity)
 

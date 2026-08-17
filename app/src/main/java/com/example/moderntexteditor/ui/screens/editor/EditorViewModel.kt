@@ -36,7 +36,7 @@ class EditorViewModel(application: Application) : AndroidViewModel(application) 
     var documentEncoding by mutableStateOf("UTF-8")
         private set
 
-    // New Requirements
+
     var isWordWrapEnabled by mutableStateOf(true)
         private set
     var isMarkdownPreviewEnabled by mutableStateOf(false)
@@ -86,7 +86,7 @@ class EditorViewModel(application: Application) : AndroidViewModel(application) 
             val doc = dao.getDocumentById(id)
             if (doc != null) {
                 dao.deleteDocument(doc)
-                // If the deleted document was the current one, create a new blank one
+
                 if (currentDocId == id) {
                     createNewDocument()
                 }
@@ -101,8 +101,7 @@ class EditorViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun restoreVersion(version: VersionEntity) {
-        // In a full implementation, you'd apply the patch to the base version.
-        // For MVP, we'll notify that the data is ready for rollback logic.
+
         loadHistory() 
     }
 

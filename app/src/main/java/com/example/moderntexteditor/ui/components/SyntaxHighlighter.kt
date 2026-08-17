@@ -28,7 +28,7 @@ fun highlightKotlin(code: String): AnnotatedString {
     return buildAnnotatedString {
         append(code)
         
-        // Match Keywords
+
         val keywordRegex = Regex("\\b(" + keywords.joinToString("|") + ")\\b")
         keywordRegex.findAll(code).forEach { match ->
             addStyle(
@@ -38,7 +38,7 @@ fun highlightKotlin(code: String): AnnotatedString {
             )
         }
 
-        // Match Annotations (@Annotation)
+
         val annotationRegex = Regex("@[a-zA-Z0-9_]+")
         annotationRegex.findAll(code).forEach { match ->
             addStyle(
@@ -48,7 +48,7 @@ fun highlightKotlin(code: String): AnnotatedString {
             )
         }
 
-        // Match Strings
+
         val stringRegex = Regex("\".*?\"")
         stringRegex.findAll(code).forEach { match ->
             addStyle(
@@ -58,7 +58,7 @@ fun highlightKotlin(code: String): AnnotatedString {
             )
         }
 
-        // Match Markdown Headers (# Header)
+
         val markdownHeaderRegex = Regex("^#+\\s+.*", RegexOption.MULTILINE)
         markdownHeaderRegex.findAll(code).forEach { match ->
             addStyle(
@@ -68,7 +68,7 @@ fun highlightKotlin(code: String): AnnotatedString {
             )
         }
 
-        // Match Comments
+
         val commentRegex = Regex("//.*|/\\*.*?\\*/", RegexOption.DOT_MATCHES_ALL)
         commentRegex.findAll(code).forEach { match ->
             addStyle(
