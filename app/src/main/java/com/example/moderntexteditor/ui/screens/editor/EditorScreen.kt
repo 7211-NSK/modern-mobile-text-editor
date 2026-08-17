@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moderntexteditor.ui.components.EditorTextField
 import com.example.moderntexteditor.ui.theme.ModernTextEditorTheme
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
+import android.widget.TextView
 import kotlinx.coroutines.launch
 
 @Composable
@@ -98,6 +101,18 @@ fun EditorScreen(viewModel: EditorViewModel = viewModel()) {
                     label = { Text("Word Wrap: ${if (viewModel.isWordWrapEnabled) "On" else "Off"}", fontWeight = FontWeight.Medium) },
                     selected = false,
                     onClick = { viewModel.toggleWordWrap() },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.Transparent)
+                )
+
+                NavigationDrawerItem(
+                    icon = { Icon(Icons.Default.Code, contentDescription = null) },
+                    label = { Text("Format Code", fontWeight = FontWeight.Medium) },
+                    selected = false,
+                    onClick = { 
+                        viewModel.formatCode()
+                        scope.launch { drawerState.close() }
+                    },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                     colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.Transparent)
                 )
@@ -264,9 +279,19 @@ fun EditorScreen(viewModel: EditorViewModel = viewModel()) {
                             .background(MaterialTheme.colorScheme.surface)
                             .padding(24.dp)
                     ) {
-                        Text(
-                            text = viewModel.text,
-                            style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 24.sp)
+                        AndroidView(
+                            factory = { context ->
+                                TextView(context).apply {
+                                    textSize = 16f
+                                }
+                            },
+                            update = { textView ->
+                                val parser = org.commonmark.parser.Parser.builder().build()
+                                val document = parser.parse(viewModel.text)
+                                val renderer = org.commonmark.renderer.html.HtmlRenderer.builder().build()
+                                val html = renderer.render(document)
+                                textView.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                            }
                         )
                     }
                 }

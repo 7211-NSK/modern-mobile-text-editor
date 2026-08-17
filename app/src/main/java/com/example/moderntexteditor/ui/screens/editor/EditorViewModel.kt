@@ -101,8 +101,18 @@ class EditorViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun restoreVersion(version: VersionEntity) {
+        var restoredText = text
+        for (v in historyList) {
+            restoredText = DiffManager.applyDelta(restoredText, v.delta)
+            if (v.id == version.id) break
+        }
+        onTextChanged(restoredText)
+        loadHistory()
+    }
 
-        loadHistory() 
+    fun formatCode() {
+        val formatted = com.example.moderntexteditor.core.KotlinFormatter.formatCode(text)
+        onTextChanged(formatted)
     }
 
     fun updateMetadata(newTitle: String, newEncoding: String = "UTF-8") {
@@ -173,7 +183,7 @@ class EditorViewModel(application: Application) : AndroidViewModel(application) 
     private fun scheduleAutoSave() {
         saveJob?.cancel()
         saveJob = viewModelScope.launch {
-            delay(1000)
+            delay(10000)
             onSave()
         }
     }
